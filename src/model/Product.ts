@@ -3,5 +3,5 @@ export class Product {
             designation!: string;
             qte!: number;
             price!: number;
-            createdAt!: string;
+            createdAt!: Date;
 }

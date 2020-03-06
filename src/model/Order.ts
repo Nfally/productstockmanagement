@@ -6,7 +6,7 @@ export class Order {
     readonly reference!: string;
     customer!: Customer;
     user!: User;
-    orderedAt!: string;
+    orderedAt!: Date;
     products!: Product[];
-    deliveredAt!: string;
+    deliveredAt!: Date;
 }
