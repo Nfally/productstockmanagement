@@ -1,10 +1,12 @@
 import {Customer} from "./Customer";
+import {Product} from "./Product";
+import {User} from "./User";
 
 export class Order {
     readonly reference!: string;
     customer!: Customer;
-    user!: string;
-    orderedAt!: string;
-    products!: string;
-    deliveredAt!: string;
+    user!: User;
+    orderedAt!: Date;
+    products!: Product[];
+    deliveredAt!: Date;
 }
