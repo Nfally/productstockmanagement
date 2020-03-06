@@ -1,10 +1,11 @@
 import mongoose, {Schema} from "mongoose"
-let product = mongoose.model("Product", new Schema<any>({
+export const ProductSchema =  new Schema<any>({
     ref: String,
     designation: String,
     qte: Number,
     price: Number,
     createdAt: Date
-}));
+});
 
-export default product;
+let Product = mongoose.model("Product", ProductSchema);
+export default Product;
