@@ -1,4 +1,4 @@
- class Product {
+export class Product {
     readonly ref!: string;
             designation!: string;
             qte!: number;

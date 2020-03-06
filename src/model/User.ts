@@ -1,4 +1,4 @@
-class User {
+export class User {
     readonly ref!: string;
              firstName!: string;
              lastName!: string;
