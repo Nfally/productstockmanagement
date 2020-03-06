@@ -1,7 +1,10 @@
-export class Product {
-    readonly ref!: string;
-            designation!: string;
-            qte!: number;
-            price!: number;
-            createdAt!: Date;
-}
+import mongoose, {Schema} from "mongoose"
+let product = mongoose.model("Product", new Schema<any>({
+    ref: String,
+    designation: String,
+    qte: Number,
+    price: Number,
+    createdAt: Date
+}));
+
+export default product;
