@@ -1,4 +1,6 @@
 import * as mongoose from "mongoose";
 
-const db = mongoose.connect('', {useNewUrlParser: true});
+console.log('hello mongoose');
+// @ts-ignore
+const db = mongoose.connect(process.env.MONGODB_URL, {useNewUrlParser: true});
 export default db;
