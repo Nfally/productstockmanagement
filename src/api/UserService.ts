@@ -1,0 +1,53 @@
+import User from "../model/User";
+import {Request, Response} from "express";
+
+export const createUser = (req: Request, resp: Response) => {
+    console.log('creating new user');
+    const userToCreate = new User(req.body);
+    userToCreate.save(err => {
+        if (err) resp.status(400).send(err);
+        resp.send(userToCreate)
+    })
+};
+
+export const updateUser= (req: Request, resp: Response) => {
+    console.log('updating user');
+    const id = req.params.id;
+    if(id) User.findByIdAndUpdate(id, req.body, (err, user) => {
+        if (err) {
+            console.error({ err });
+            return resp.send('user not found')
+        }
+        return resp.send(user)
+    });
+    else throw new Error()
+};
+
+export const deleteUser = (req: Request, resp: Response) => {
+    console.log('deleting user');
+    const id = req.params.id;
+    const customerToFound = User.findById(id);
+    if(!customerToFound) {
+        return resp.send('product not found')
+    }
+    User.findByIdAndDelete(id, err => {
+        if(err) resp.send(err);
+        else resp.send('user deleted successfully..')
+    })
+};
+
+export const getAllUsers = (req: Request, resp: Response) => {
+    console.log('getting all users.');
+    User.find((err, users) => {
+        if (err) console.log(err);
+        else resp.send(users)
+    })
+};
+
+export const getUserById = (req: Request, resp: Response) => {
+    console.log('getting product by id');
+    User.findById(req.params.id, (err, user) => {
+        if (err) console.error(err);
+        else resp.send(user)
+    })
+};
