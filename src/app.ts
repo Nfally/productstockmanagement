@@ -9,12 +9,12 @@ class App {
     }
 
     private mountRoutes (): void {
-        const router = express.Router()
+        const router = express.Router();
         router.get('/', (req, res) => {
             res.json({
                 message: 'Hello World!'
             })
-        })
+        });
         this.express.use('/', router)
     }
 }
