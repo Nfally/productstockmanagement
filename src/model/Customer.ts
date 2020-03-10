@@ -6,7 +6,11 @@ export const CustomerSchema = new mongoose.Schema({
     lastName: String,
     phone: String,
     address: String,
-    email: String
+    email: String,
+    registeredBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    }
 });
 let Customer = mongoose.model("Customer", CustomerSchema);
 

@@ -1,12 +1,5 @@
 import mongoose from "mongoose";
 
-console.log('hello mongoose');
-
-function handleError(error: any) {
-    return error;
-}
-
-console.log(process.env.MONGODB_URL)
 const options = {
     useUnifiedTopology: true,
     useNewUrlParser: true

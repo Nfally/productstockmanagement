@@ -1,11 +1,14 @@
-import mongoose, {Schema} from "mongoose"
+import mongoose, {Schema} from "mongoose";
+
 export const ProductSchema =  new Schema<any>({
-    ref: String,
-    designation: String,
-    qte: Number,
+    ref: {type: String, unique: true, required: true},
+    designation: { type: String, lowercase: true, trim: true },
+    qte: {type:Number, min: 0},
     price: Number,
-    createdAt: Date
+    createdAt: { type: Date, default: Date.now },
+    registeredBy: {type: mongoose.Schema.Types.ObjectId, ref:'User'}
+
 });
 
-let Product = mongoose.model("Product", ProductSchema);
+const Product = mongoose.model("Product", ProductSchema);
 export default Product;

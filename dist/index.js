@@ -5,15 +5,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./app"));
 const db_1 = __importDefault(require("./core/db"));
-const CustomerUrls_1 = __importDefault(require("./routes/CustomerUrls"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const ProductUrls_1 = __importDefault(require("./routes/ProductUrls"));
+const OrderUrls_1 = __importDefault(require("./routes/OrderUrls"));
+const CustomerUrls_1 = __importDefault(require("./routes/CustomerUrls"));
 const UserUrls_1 = __importDefault(require("./routes/UserUrls"));
 const port = process.env.PORT || 3000;
 db_1.default;
 app_1.default.use(body_parser_1.default.json());
 app_1.default.use(CustomerUrls_1.default);
 app_1.default.use(ProductUrls_1.default);
+app_1.default.use(OrderUrls_1.default);
 app_1.default.use(UserUrls_1.default);
 app_1.default.listen(port, (err) => {
     if (err) {

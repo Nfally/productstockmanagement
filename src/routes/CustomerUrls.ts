@@ -1,12 +1,12 @@
-import * as express from 'express'
-import {createCustomer, deleteCustomer, getAllCustomers, getCustomerById, updateCustomer} from "../api/CustomerService";
+import Router from 'express'
+import * as CustomerService from "../api/CustomerService";
 
-const CustomerRouter = express.Router();
+const CustomerRouter = Router();
 
-CustomerRouter.post('/customers', createCustomer)
-CustomerRouter.put('/customers/:id', updateCustomer)
-CustomerRouter.delete('/customers/:id', deleteCustomer)
-CustomerRouter.get('/customers', getAllCustomers)
-CustomerRouter.get('/customers/:id', getCustomerById)
+CustomerRouter.post('/api/customers', CustomerService.createCustomer)
+CustomerRouter.put('/api/customers/:id', CustomerService.updateCustomer)
+CustomerRouter.delete('/api/customers/:id', CustomerService.deleteCustomer)
+CustomerRouter.get('/api/customers', CustomerService.getAllCustomers)
+CustomerRouter.get('/api/customers/:id', CustomerService.getCustomerById)
 
 export default CustomerRouter

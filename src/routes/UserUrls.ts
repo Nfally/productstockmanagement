@@ -1,12 +1,12 @@
-import * as express from 'express'
-import {createUser, deleteUser, getAllUsers, getUserById, updateUser} from "../api/UserService";
+import Router from 'express'
+import * as UserService from "../api/UserService";
 
-const UserRouter = express.Router();
+const UserRouter = Router();
 
-UserRouter.post('/users', createUser);
-UserRouter.put('/users/:id', updateUser);
-UserRouter.delete('/users/:id', deleteUser);
-UserRouter.get('/users', getAllUsers);
-UserRouter.get('/users/:id', getUserById);
+UserRouter.post('/api/users', UserService.createUser);
+UserRouter.put('/api/users/:id', UserService.updateUser);
+UserRouter.delete('/api/users/:id', UserService.deleteUser);
+UserRouter.get('/api/users', UserService.getAllUsers);
+UserRouter.get('/api/users/:id', UserService.getUserById);
 
 export default UserRouter
