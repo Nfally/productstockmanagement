@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "concurrently \"tsc --watch \"  \"env-cmd ./dev.env\" \"nodemon dist/index.js\"",
-    "test": "jest"
+    "test": "jest --verbose --watchAll"
   },
   "author": "nfallyibrahimacoly@gmail.com",
   "license": "ISC",
