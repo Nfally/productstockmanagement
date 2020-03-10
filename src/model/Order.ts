@@ -1,14 +1,26 @@
-import {Schema, Types} from "mongoose";
-import * as mongoose from "mongoose";
-import {CustomerSchema} from "./Customer";
-import {UserSchema} from "./User";
-import {ProductSchema} from "./Product";
+import {Schema} from "mongoose";
+import  mongoose from "mongoose";
 
 let Order = mongoose.model("Order", new Schema<any>({
-    reference: String,
-    customer: CustomerSchema,
-    user: UserSchema,
-    products: [ProductSchema],
+    reference: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    customer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Customer'
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    },
+    products: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'Product'
+        }
+    ],
     deliveredAt: Date
 }))
 

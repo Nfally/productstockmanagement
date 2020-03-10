@@ -1,12 +1,15 @@
-import * as mongoose from "mongoose";
+import mongoose from "mongoose";
 
 export const UserSchema = new mongoose.Schema<any>({
     ref: String,
     firstName: String,
     lastName: String,
     phone: Number,
-    adress: String,
-    email: String
+    address: String,
+    email: String,
+    username: String,
+    password: String,
+    registeredBy: {type: mongoose.Schema.Types.ObjectId, ref:'User'}
 });
 
 let User = mongoose.model("User", UserSchema);

@@ -1,12 +1,12 @@
-import * as express from 'express'
-import {createProduct, deleteProduct, getAllProducts, getProductById, updateProduct} from "../api/ProductService";
+import Router from 'express'
+import * as ProductService from "../api/ProductService";
 
-const ProductRouter = express.Router();
+const ProductRouter = Router();
 
-ProductRouter.post('/products', createProduct);
-ProductRouter.put('/products/:id', updateProduct);
-ProductRouter.delete('/products/:id', deleteProduct);
-ProductRouter.get('/products', getAllProducts);
-ProductRouter.get('/products/:id', getProductById);
+ProductRouter.post('/api/products', ProductService.createProduct);
+ProductRouter.put('/api/products/:id', ProductService.updateProduct);
+ProductRouter.delete('/api/products/:id', ProductService.deleteProduct);
+ProductRouter.get('/api/products', ProductService.getAllProducts);
+ProductRouter.get('/api/products/:id', ProductService.getProductById);
 
 export default ProductRouter

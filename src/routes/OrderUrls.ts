@@ -1,12 +1,12 @@
-import * as express from 'express'
-import {createOrder, deleteOrder, getAllOrders, getOrderById, updateOrder} from "../api/OrderService";
+import Router from 'express'
+import * as OrderService from "../api/OrderService";
 
-const OrderRouter = express.Router();
+const OrderRouter = Router();
 
-OrderRouter.post('/orders', createOrder)
-OrderRouter.put('/orders/:id', updateOrder)
-OrderRouter.delete('/orders/:id', deleteOrder)
-OrderRouter.get('/orders', getAllOrders)
-OrderRouter.get('/orders/:id', getOrderById)
+OrderRouter.post('/api/orders', OrderService.createOrder)
+OrderRouter.put('/api/orders/:id', OrderService.updateOrder)
+OrderRouter.delete('/api/orders/:id', OrderService.deleteOrder)
+OrderRouter.get('/api/orders', OrderService.getAllOrders)
+OrderRouter.get('/api/orders/:id', OrderService.getOrderById)
 
 export default OrderRouter
