@@ -1,5 +1,5 @@
 import Router from 'express'
-import * as CustomerService from "../api/CustomerService";
+import  { CustomerService } from "../api/CustomerService";
 
 const CustomerRouter = Router();
 

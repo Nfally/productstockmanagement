@@ -1,5 +1,5 @@
+import { OrderService } from "../api/OrderService";
 import Router from 'express'
-import * as OrderService from "../api/OrderService";
 
 const OrderRouter = Router();
 

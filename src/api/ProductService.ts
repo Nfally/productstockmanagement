@@ -1,7 +1,7 @@
 import Product from "../model/Product";
 import {Request, Response} from "express";
 
-module.exports = {
+export const ProductService = {
     createProduct: (req: Request, resp: Response) => {
         console.log('creating new product');
         const productToCreate = new Product(req.body);
@@ -53,3 +53,5 @@ module.exports = {
         })
     }
 }
+
+// module.exports = ProductService
