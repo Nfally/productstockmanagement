@@ -1,5 +1,5 @@
+import { ProductService } from "../api/ProductService";
 import Router from 'express'
-import * as ProductService from "../api/ProductService";
 
 const ProductRouter = Router();
 

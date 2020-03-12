@@ -4,7 +4,7 @@ import User from "../model/User";
 import Customer from "../model/Customer";
 import Product from "../model/Product";
 
-module.exports = {
+export const OrderService = {
     createOrder: (req: Request, resp: Response) => {
         console.log('creating new order');
         const orderToCreate = new Order(req.body);
@@ -67,3 +67,5 @@ module.exports = {
         })
     }
 }
+
+// module.exports = OrderService

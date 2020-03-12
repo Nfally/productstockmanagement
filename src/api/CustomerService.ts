@@ -1,13 +1,13 @@
 import Customer from "../model/Customer";
 import {Request, Response} from "express";
 
-module.exports = {
+export const CustomerService = {
     createCustomer: (req: Request, resp: Response) => {
         console.log('creating new customer');
-        const customerToCreate = new Customer(req.body);
-        customerToCreate.save(err => {
-            if (err) resp.status(400).send(err);
-            resp.send(customerToCreate)
+        let customerToCreate = new Customer(req.body);
+        customerToCreate.save((err, customer) => {
+            if (customer) return resp.send(customer)
+            else console.log(err)
         })
     },
 
@@ -53,3 +53,5 @@ module.exports = {
         })
     }
 }
+
+// module.exports = CustomerService

@@ -1,7 +1,7 @@
 import User from "../model/User";
 import {Request, Response} from "express";
 
-module.exports = {
+export const UserService = {
     createUser: (req: Request, resp: Response) => {
         console.log('creating new user');
         const userToCreate = new User(req.body);
@@ -48,3 +48,5 @@ module.exports = {
         })
     }
 }
+
+// module.exports = UserService
