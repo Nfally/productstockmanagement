@@ -6,11 +6,11 @@ import Product from "../model/Product";
 
 export const OrderService = {
     createOrder: (req: Request, resp: Response) => {
-        console.log('creating new order');
-        const orderToCreate = new Order(req.body);
-        orderToCreate.save(err => {
-            if (err) resp.status(400).send(err);
-            resp.send(orderToCreate)
+        console.log('creating new order')
+        const orderToCreate = new Order(req.body)
+        orderToCreate.save((err, order) => {
+            if (err) resp.status(400).send(err)
+            else resp.send(order)
         })
     },
 
@@ -51,8 +51,25 @@ export const OrderService = {
     getOrderById: async (req: Request, resp: Response) => {
         console.log('getting order by id');
         const user = await User.findById(req.body.user)
-        const customer = await Customer.findById(req.body.customer)
-        const products = await Product.find()
+        const customer = await Customer.aggregate([
+            {
+                $match: {
+                    _id: {
+                        $in: req.body.customer
+                    }
+                }
+            }
+        ])
+
+        const products = await Product.aggregate([
+            {
+                $match: {
+                    _id: {
+                        $in: req.body.products
+                    }
+                }
+            }
+        ])
 
         Order.findById(req.params.id, (err, order) => {
             if (err) console.error(err);
