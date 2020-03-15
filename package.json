@@ -4,7 +4,7 @@
   "description": "this project is about management of a products stock",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "concurrently \"tsc --watch \"  \"env-cmd ./dev.env\" \"nodemon dist/index.js\"",
+    "dev": "concurrently \"tsc --watch \"  \"nodemon dist/index.js\"",
     "test": "jest --verbose --watchAll"
   },
   "author": "nfallyibrahimacoly@gmail.com",

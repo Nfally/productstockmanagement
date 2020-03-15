@@ -3,6 +3,7 @@ import {Request, Response} from "express";
 import User from "../model/User";
 import Customer from "../model/Customer";
 import Product from "../model/Product";
+import {lookup, match} from "../../appHelpers";
 
 export const OrderService = {
     createOrder: (req: Request, resp: Response) => {
@@ -41,7 +42,7 @@ export const OrderService = {
     },
 
     getAllOrders: async (req: Request, resp: Response) => {
-        console.log('getting all orders.');
+        console.log('getting orders.');
         Order.find((err, orders) => {
             if (err) console.log(err);
             else resp.send(orders)
@@ -49,27 +50,26 @@ export const OrderService = {
     },
 
     getOrderById: async (req: Request, resp: Response) => {
-        console.log('getting order by id');
+        // console.log('getting order by id');
+        console.log('hello guys')
         const user = await User.findById(req.body.user)
-        const customer = await Customer.aggregate([
-            {
-                $match: {
-                    _id: {
-                        $in: req.body.customer
-                    }
-                }
-            }
-        ])
+        // let cust = await match(Customer, req.body.customer, '_id');
+        let customer: any;
+        try {
+            customer = await lookup('customer', '_id', '_id', 'orders')
+        } catch (err) {
+            throw new Error(`something went wrong: ${err}`)
+        }
 
-        const products = await Product.aggregate([
-            {
-                $match: {
-                    _id: {
-                        $in: req.body.products
-                    }
-                }
-            }
-        ])
+        let products: any;
+        // products = await match(Product, req.body.products, '_id');
+        try {
+            products = await lookup('product', '_id', '_id', 'products')
+        } catch (err) {
+            console.log({ err })
+            throw new Error(err)
+        }
+
 
         Order.findById(req.params.id, (err, order) => {
             if (err) console.error(err);
@@ -84,5 +84,3 @@ export const OrderService = {
         })
     }
 }
-
-// module.exports = OrderService
