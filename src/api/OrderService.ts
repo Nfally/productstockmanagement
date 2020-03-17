@@ -3,7 +3,7 @@ import {Request, Response} from "express";
 import User from "../model/User";
 import Customer from "../model/Customer";
 import Product from "../model/Product";
-import {lookup, match} from "../../appHelpers";
+import {lookup, match} from "../appHelpers";
 
 export const OrderService = {
     createOrder: (req: Request, resp: Response) => {
@@ -51,36 +51,54 @@ export const OrderService = {
 
     getOrderById: async (req: Request, resp: Response) => {
         // console.log('getting order by id');
-        console.log('hello guys')
+        const body = req.body
+        console.log({ req })
         const user = await User.findById(req.body.user)
         // let cust = await match(Customer, req.body.customer, '_id');
         let customer: any;
-        try {
-            customer = await lookup('customer', '_id', '_id', 'orders')
-        } catch (err) {
-            throw new Error(`something went wrong: ${err}`)
-        }
+        // try {
+        //     customer = await lookup('customer', '_id', '_id', 'orders')
+        // } catch (err) {
+        //     throw new Error(`something went wrong: ${err}`)
+        // }
 
         let products: any;
         // products = await match(Product, req.body.products, '_id');
-        try {
-            products = await lookup('product', '_id', '_id', 'products')
-        } catch (err) {
-            console.log({ err })
-            throw new Error(err)
-        }
+        // try {
+        //     products = await lookup('product', '_id', '_id', 'products')
+        // } catch (err) {
+        //     console.log({ err })
+        //     throw new Error(err)
+        // }
+        // products = Product.aggregate([
+        //     {
+        //         $match: {
+        //             field: {
+        //                 $in: '_id'
+        //             }
+        //         }
+        //     }
+        // ])
 
 
-        Order.findById(req.params.id, (err, order) => {
+        const _order = Order.findById(req.params.id, (err, order) => {
             if (err) console.error(err);
             else {
-                const o = new Order({
-                    user: user,
-                    customer: customer,
-                    products: products
-                })
-                resp.send(o)
+                // const o = new Order({
+                //     user: user,
+                //     customer: customer,
+                //     products: products
+                // })
+                // resp.send(o)
+                resp.send(order)
             }
+        })
+
+        // products = lookup('Order', 'products', '_id', 'products')
+        // console.log({ products })
+
+        console.log({
+            _order
         })
     }
 }

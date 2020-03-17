@@ -6,7 +6,7 @@ import OrderRouter from "./routes/OrderUrls";
 import CustomerRouter from "./routes/CustomerUrls";
 import UserRouter from "./routes/UserUrls";
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 
 db;
 app.use(bodyParser.json());
