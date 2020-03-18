@@ -4,7 +4,7 @@ import  mongoose from "mongoose";
 let Order = mongoose.model("Order", new Schema<any>({
     reference: {
         type: String,
-        unique: true,
+        unique: false,
         required: true
     },
     customer: {
@@ -22,6 +22,6 @@ let Order = mongoose.model("Order", new Schema<any>({
         }
     ],
     deliveredAt: Date
-}))
+}));
 
 export default Order;

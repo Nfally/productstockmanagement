@@ -53,5 +53,3 @@ export const ProductService = {
         })
     }
 }
-
-// module.exports = ProductService

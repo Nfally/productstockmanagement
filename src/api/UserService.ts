@@ -1,5 +1,6 @@
-import User from "../model/User";
+import User, {UserSchema} from "../model/User";
 import {Request, Response} from "express";
+import Order from "../model/Order";
 
 export const UserService = {
     createUser: (req: Request, resp: Response) => {
@@ -26,9 +27,14 @@ export const UserService = {
         if (!customerToFound) {
             return resp.send('product not found')
         }
-        User.findByIdAndDelete(id, err => {
-            if (err) resp.send(err);
-            else resp.send('user deleted successfully..')
+        // User.findByIdAndDelete(id, err => {
+        //     if (err) resp.send(err);
+        //     else resp.send('user deleted successfully..')
+        // })
+        UserSchema.pre('remove', async function (next) {
+            const user = this
+            await Order.deleteMany({ user: id })
+            next()
         })
     },
 
@@ -48,5 +54,3 @@ export const UserService = {
         })
     }
 }
-
-// module.exports = UserService

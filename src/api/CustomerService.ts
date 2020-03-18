@@ -38,7 +38,7 @@ export const CustomerService = {
     },
 
     getAllCustomers: (req: Request, resp: Response) => {
-        console.log('getting all customers.');
+        console.log('getting customers.');
         Customer.find((err, customers) => {
             if (err) console.log(err);
             else resp.send(customers)
@@ -53,5 +53,3 @@ export const CustomerService = {
         })
     }
 }
-
-// module.exports = CustomerService

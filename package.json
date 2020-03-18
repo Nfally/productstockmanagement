@@ -4,14 +4,17 @@
   "description": "this project is about management of a products stock",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "concurrently \"tsc --watch \"  \"env-cmd ./dev.env\" \"nodemon dist/index.js\"",
+    "dev": "concurrently \"tsc --watch \"  \"nodemon dist/index.js\"",
     "test": "jest --verbose --watchAll"
   },
   "author": "nfallyibrahimacoly@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "@types/bcrypt": "^3.0.0",
     "@types/express": "^4.17.3",
     "@types/mongoose": "^5.7.3",
+    "bcrypt": "^4.0.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^5.1.0",
     "env-cmd": "^10.1.0",

@@ -1,7 +1,7 @@
 import mongoose, {Schema} from "mongoose";
 
 export const ProductSchema =  new Schema<any>({
-    ref: {type: String, unique: true, required: true},
+    ref: {type: String, unique: false, required: true},
     designation: { type: String, lowercase: true, trim: true },
     qte: {type:Number, min: 0},
     price: Number,
