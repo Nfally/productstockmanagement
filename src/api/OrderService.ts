@@ -4,8 +4,7 @@ import User from "../model/User";
 import Customer from "../model/Customer";
 import Product from "../model/Product";
 import {lookup, match, orderAggregate} from "../appHelpers";
-let customer: any;
-let products: any;
+
 export const OrderService = {
     createOrder: (req: Request, resp: Response) => {
         console.log('creating new order')
@@ -56,12 +55,12 @@ export const OrderService = {
         console.log({ req });
         const user = await User.findById(req.body.user);
         // let cust = await match(Customer, req.body.customer, '_id');
-
+        let order: any;
         Order.aggregate(orderAggregate(),
             (error: any , body:any) => {
                 if (error)  console.log(error);
-                customer = body;
-                resp.send(customer);
+                order = body;
+                resp.send(order);
 
             });
         // Order.aggregate(orderAggregate( 'products', 'products', '_id', 'products'),
