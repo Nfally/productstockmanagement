@@ -115,7 +115,7 @@ export function orderAggregate () {
     ]
 }
 
-export function agg(models: string[], fields: string[]) {
+export function agg(models: string[], fields: string[], alias: string[]) {
     const arr: Array<any> = []
     for(let i: number = 0; i <= models.length - 1; i++) {
         arr.push(
@@ -125,7 +125,7 @@ export function agg(models: string[], fields: string[]) {
                     'let': {
                         'cu': `$${models[i].substring(0, models[i].length - 1)}`
                     },
-                    'pipeline': [
+                    'pipeline':[
                         {
                             '$match': {
                                 '$expr': {
@@ -141,8 +141,8 @@ export function agg(models: string[], fields: string[]) {
                                 '__v': 0
                             }
                         }
-                    ],
-                    as: models[i].substring(0, models[i].length - 1)
+                    ] ,
+                    as: alias[i]
                 }
             }
         )
