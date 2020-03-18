@@ -123,7 +123,7 @@ export function agg(models: string[], fields: string[], alias: string[]) {
                 $lookup: {
                     'from': models[i],
                     'let': {
-                        'cu': `$${models[i].substring(0, models[i].length - 1)}`
+                        'cu': `$${alias[i]}`
                     },
                     'pipeline':[
                         {
