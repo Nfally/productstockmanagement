@@ -22,6 +22,6 @@ let Order = mongoose.model("Order", new Schema<any>({
         }
     ],
     deliveredAt: Date
-}))
+}));
 
 export default Order;

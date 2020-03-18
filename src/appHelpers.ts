@@ -26,3 +26,92 @@ export function lookup(from: string, localField: string, foreignField: string, a
     // @ts-ignore
     return aggregate.lookup({ from: from, localField: localField, foreignField: foreignField, as: from });
 }
+
+export function orderAggregate () {
+    return [
+
+        {
+            $lookup: {
+                'from': 'customers',
+                'let': {
+                    'ct': '$customer'
+                },
+                'pipeline': [
+                    {
+                        '$match': {
+                            '$expr': {
+                                '$eq': [
+                                    '$_id',
+                                    '$$ct'
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        $project: {
+                            '__v': 0
+                        }
+                    }
+                ],
+                as: 'customer'
+            },
+        },
+        {
+            $lookup: {
+                'from': 'products',
+                'let': {
+                    'pr': '$products'
+                },
+                'pipeline': [
+                    {
+                        '$match': {
+                            '$expr': {
+                                '$in': [
+                                    '$_id', '$$pr'
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        $project: {
+                            '__v': 0
+                        }
+                    }
+                ],
+                as: 'products'
+
+            },
+        },
+        {
+            $lookup: {
+                'from': 'users',
+                'let': {
+                    'us': '$user'
+                },
+                'pipeline': [
+                    {
+                        '$match': {
+                            '$expr': {
+                                '$eq': [
+                                    '$_id',
+                                    '$$us'
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        $project: {
+                            '__v': 0
+                        }
+                    }
+                ],
+                as: 'user'
+            },
+        },
+        {
+            $project: {
+                 '__v': 0
+            }
+        }
+    ]
+}
