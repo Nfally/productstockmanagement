@@ -29,7 +29,6 @@ export function lookup(from: string, localField: string, foreignField: string, a
 
 export function orderAggregate () {
     return [
-
         {
             $lookup: {
                 'from': 'customers',
@@ -114,4 +113,44 @@ export function orderAggregate () {
             }
         }
     ]
+}
+
+export function agg(models: string[], fields: string[]) {
+    const arr: Array<any> = []
+    for(let i: number = 0; i <= models.length - 1; i++) {
+        arr.push(
+            {
+                $lookup: {
+                    'from': models[i],
+                    'let': {
+                        'cu': `$${models[i].substring(0, models[i].length - 1)}`
+                    },
+                    'pipeline': [
+                        {
+                            '$match': {
+                                '$expr': {
+                                    '$eq': [
+                                        `$${fields[i]}`,
+                                        '$$cu'
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            $project: {
+                                '__v': 0
+                            }
+                        }
+                    ],
+                    as: models[i].substring(0, models[i].length - 1)
+                }
+            }
+        )
+    }
+    arr.push({
+        $project: {
+            '__v': 0
+        }
+    })
+    return arr
 }
