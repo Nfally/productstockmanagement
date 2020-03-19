@@ -1,6 +1,9 @@
 import Order from "../model/Order";
 import {Request, Response} from "express";
 import {agg, lookup, match, orderAggregate} from "../appHelpers";
+import * as mongoose from "mongoose";
+import {Schema} from "mongoose";
+import {ObjectId} from "bson";
 
 export const OrderService = {
     createOrder: (req: Request, resp: Response) => {
@@ -42,18 +45,23 @@ export const OrderService = {
             (error: any , body:any) => {
                 if (error)  console.log(error);
                 orders = body;
-                console.log({ body })
+                console.log({ body });
                 resp.send(orders);
             });
     },
 
     getOrderById: async (req: Request, resp: Response) => {
-        const _id = req.params.id
-        console.log({ _id })
-        if (!_id) throw new Error('order not found.')
-        else Order.findById(_id, (err, order) => {
-            if (err) throw new Error('can\'t fetch this order')
-            else resp.send(order)
+        let _id = req.params.id;
+        console.log(typeof (new ObjectId(_id)));
+        Order.aggregate(orderAggregate(_id), (error: any, order: any) => {
+             return resp.send(order);
+         })
+    },
+    getOrderByReference: async (req: Request, resp: Response) => {
+        let reference = req.params.reference;
+        Order.aggregate(orderAggregate(reference), (error: any, order: any) => {
+            if (order.length == 0)  return resp.status(400).send({'errors': 'Orders not found'});
+            return resp.send(order);
         })
     }
-}
+};
