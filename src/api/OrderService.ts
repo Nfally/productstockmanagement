@@ -39,23 +39,37 @@ export const OrderService = {
     },
 
     getAllOrders: async (req: Request, resp: Response) => {
-        let orders: any;
-
-        Order.aggregate(agg(['customers', 'users', 'products'], ['_id', "_id", "_id"], ['customer', 'user', 'products']),
-            (error: any , body:any) => {
-                if (error)  console.log(error);
-                orders = body;
-                console.log({ body });
-                resp.send(orders);
-            });
+        try {
+            const order = await Order.find().
+            populate('user', ['-password']).
+            populate('customer', ['-__v']).
+            populate('products', ['-__v']);
+            /*Order.aggregate(orderAggregate(_id), (error: any, order: any) => {
+                 return resp.send(order);
+             })*/
+            console.log(order);
+            resp.json(order);
+        }catch (e) {
+            console.error(e.message);
+            return resp.status(500).send('Server Error');
+        }
     },
 
     getOrderById: async (req: Request, resp: Response) => {
-        let _id = req.params.id;
-        console.log(typeof (new ObjectId(_id)));
-        Order.aggregate(orderAggregate(_id), (error: any, order: any) => {
-             return resp.send(order);
-         })
+        try {
+            const order = await Order.findOne({'_id': req.params.id}).
+            populate('user', ['-password', '-__v']).
+            populate('customer', ['-__v']).
+            populate('products', ['-__v'])
+            /*Order.aggregate(orderAggregate(_id), (error: any, order: any) => {
+                 return resp.send(order);
+             })*/
+            console.log(order);
+            resp.json(order);
+        }catch (e) {
+            console.error(e.message);
+            return resp.status(500).send('Server Error');
+        }
     },
     getOrderByReference: async (req: Request, resp: Response) => {
         let reference = req.params.reference;

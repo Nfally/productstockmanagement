@@ -9,7 +9,7 @@ export const CredentialsSchema = new Schema<any>({
     password: {
         type: String
     }
-})
-let Credentials = mongoose.model("Credentials", CredentialsSchema)
+});
+let Credentials = mongoose.model("Credentials", CredentialsSchema);
 
 export default Credentials
