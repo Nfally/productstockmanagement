@@ -1,9 +1,5 @@
 import Order from "../model/Order";
 import {Request, Response} from "express";
-import {agg, lookup, match, orderAggregate} from "../appHelpers";
-import * as mongoose from "mongoose";
-import {Schema} from "mongoose";
-import {ObjectId} from "bson";
 
 export const OrderService = {
     createOrder: (req: Request, resp: Response) => {
@@ -44,9 +40,6 @@ export const OrderService = {
             populate('user', ['-password']).
             populate('customer', ['-__v']).
             populate('products', ['-__v']);
-            /*Order.aggregate(orderAggregate(_id), (error: any, order: any) => {
-                 return resp.send(order);
-             })*/
             console.log(order);
             resp.json(order);
         }catch (e) {
@@ -60,22 +53,12 @@ export const OrderService = {
             const order = await Order.findOne({'_id': req.params.id}).
             populate('user', ['-password', '-__v']).
             populate('customer', ['-__v']).
-            populate('products', ['-__v'])
-            /*Order.aggregate(orderAggregate(_id), (error: any, order: any) => {
-                 return resp.send(order);
-             })*/
+            populate('products', ['-__v']);
             console.log(order);
             resp.json(order);
         }catch (e) {
             console.error(e.message);
             return resp.status(500).send('Server Error');
         }
-    },
-    getOrderByReference: async (req: Request, resp: Response) => {
-        let reference = req.params.reference;
-        Order.aggregate(orderAggregate(reference), (error: any, order: any) => {
-            if (order.length == 0)  return resp.status(400).send({'errors': 'Orders not found'});
-            return resp.send(order);
-        })
     }
 };
