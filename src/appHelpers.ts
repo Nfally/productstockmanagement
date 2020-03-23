@@ -1,4 +1,5 @@
 import * as mongoose from "mongoose";
+import {Schema, Types} from "mongoose";
 
 export function match (model: mongoose.Model<any>, arg: string, field: any): any {
     return model.aggregate([
@@ -27,8 +28,13 @@ export function lookup(from: string, localField: string, foreignField: string, a
     return aggregate.lookup({ from: from, localField: localField, foreignField: foreignField, as: from });
 }
 
-export function orderAggregate () {
+export function orderAggregate (reference: string) {
     return [
+        {
+          $match: {
+            'reference': reference
+          }
+        },
         {
             $lookup: {
                 'from': 'customers',
@@ -114,9 +120,11 @@ export function orderAggregate () {
         }
     ]
 }
+function f (action: string[]) {
 
+}
 export function agg(models: string[], fields: string[], alias: string[]) {
-    const arr: Array<any> = []
+    const arr: Array<any> = [];
     for(let i: number = 0; i <= models.length - 1; i++) {
         arr.push(
             {

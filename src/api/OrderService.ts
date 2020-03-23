@@ -1,6 +1,5 @@
 import Order from "../model/Order";
 import {Request, Response} from "express";
-import {agg, lookup, match, orderAggregate} from "../appHelpers";
 
 export const OrderService = {
     createOrder: (req: Request, resp: Response) => {
@@ -36,24 +35,30 @@ export const OrderService = {
     },
 
     getAllOrders: async (req: Request, resp: Response) => {
-        let orders: any;
-
-        Order.aggregate(agg(['customers', 'users', 'products'], ['_id', "_id", "_id"], ['customer', 'user', 'products']),
-            (error: any , body:any) => {
-                if (error)  console.log(error);
-                orders = body;
-                console.log({ body })
-                resp.send(orders);
-            });
+        try {
+            const order = await Order.find().
+            populate('user', ['-password']).
+            populate('customer', ['-__v']).
+            populate('products', ['-__v']);
+            console.log(order);
+            resp.json(order);
+        }catch (e) {
+            console.error(e.message);
+            return resp.status(500).send('Server Error');
+        }
     },
 
     getOrderById: async (req: Request, resp: Response) => {
-        const _id = req.params.id
-        console.log({ _id })
-        if (!_id) throw new Error('order not found.')
-        else Order.findById(_id, (err, order) => {
-            if (err) throw new Error('can\'t fetch this order')
-            else resp.send(order)
-        })
+        try {
+            const order = await Order.findOne({'_id': req.params.id}).
+            populate('user', ['-password', '-__v']).
+            populate('customer', ['-__v']).
+            populate('products', ['-__v']);
+            console.log(order);
+            resp.json(order);
+        }catch (e) {
+            console.error(e.message);
+            return resp.status(500).send('Server Error');
+        }
     }
-}
+};
