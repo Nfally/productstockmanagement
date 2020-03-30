@@ -1,8 +1,10 @@
 import Customer from "../model/Customer";
 import {Request, Response} from "express";
+import {errorsValidation} from "../appHelpers";
 
 export const CustomerService = {
     createCustomer: (req: Request, resp: Response) => {
+        errorsValidation(req,resp);
         console.log('creating new customer');
         let customerToCreate = new Customer(req.body);
         customerToCreate.save((err, customer) => {
@@ -12,6 +14,7 @@ export const CustomerService = {
     },
 
     updateCustomer: (req: Request, resp: Response) => {
+        errorsValidation(req,resp);
         console.log('updating customer');
         const id = req.params.id;
         if(id) Customer.findByIdAndUpdate(id, req.body, (err, customer) => {

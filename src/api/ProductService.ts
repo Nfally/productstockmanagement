@@ -1,8 +1,10 @@
 import Product from "../model/Product";
 import {Request, Response} from "express";
+import {errorsValidation} from "../appHelpers";
 
 export const ProductService = {
     createProduct: (req: Request, resp: Response) => {
+        errorsValidation(req,resp);
         console.log('creating new product');
         const productToCreate = new Product(req.body);
         productToCreate.save(err => {
@@ -12,6 +14,7 @@ export const ProductService = {
     },
 
     updateProduct: (req: Request, resp: Response) => {
+        errorsValidation(req,resp);
         console.log('updating product');
         const id = req.params.id;
         if(id) Product.findByIdAndUpdate(id, req.body, (err, product) => {
@@ -52,4 +55,4 @@ export const ProductService = {
             else resp.send(product)
         })
     }
-}
+};

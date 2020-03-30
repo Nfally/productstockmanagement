@@ -1,12 +1,24 @@
 import * as mongoose from "mongoose";
 
 export const CustomerSchema = new mongoose.Schema({
-    reference: String,
-    firstName: String,
-    lastName: String,
+    reference:{
+        type: String,
+        required: true
+    },
+    firstName:{
+        type: String,
+        required: true
+    },
+    lastName:{
+        type: String,
+        required: true
+    },
     phone: String,
     address: String,
-    email: String,
+    email:{
+        type: String,
+        required: true
+    },
     registeredBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref:'User'

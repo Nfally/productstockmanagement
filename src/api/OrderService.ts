@@ -1,16 +1,19 @@
 import Order from "../model/Order";
 import {Request, Response} from "express";
+import {errorsValidation} from "../appHelpers";
 
 export const OrderService = {
     createOrder: (req: Request, resp: Response) => {
-        const orderToCreate = new Order(req.body)
+        errorsValidation(req,resp);
+        const orderToCreate = new Order(req.body);
         orderToCreate.save((err, order) => {
-            if (err) resp.status(400).send(err)
+            if (err) resp.status(400).send(err);
             else resp.send(order)
         })
     },
 
     updateOrder: (req: Request, resp: Response) => {
+        errorsValidation(req,resp);
         const id = req.params.id;
         if(id) Order.findByIdAndUpdate(id, req.body, (err, order) => {
             if (err) {
