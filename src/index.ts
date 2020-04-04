@@ -5,7 +5,7 @@ import ProductRouter from "./routes/ProductUrls";
 import OrderRouter from "./routes/OrderUrls";
 import CustomerRouter from "./routes/CustomerUrls";
 import UserRouter from "./routes/UserUrls";
-
+import AuthRouter from "./routes/Auth";
 const port = process.env.PORT || 3000;
 
 db;
@@ -14,6 +14,7 @@ app.use(CustomerRouter);
 app.use(ProductRouter);
 app.use(OrderRouter);
 app.use(UserRouter);
+app.use(AuthRouter);
 app.listen(port, (err: any) => {
     if (err) {
         return console.log(err)

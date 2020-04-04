@@ -1,27 +1,49 @@
 import User from "../model/User";
 import bcrypt from "bcrypt"
 import {Request, Response} from 'express'
-
+import auth from '../middlewares/UserMiddlewares';
+import {check, validationResult} from "express-validator";
+import jwt from "jsonwebtoken";
+import {errorsValidation} from "../appHelpers";
 export let AuthService = {
-    signIn: async (req: Request, resp: Response) => {
-        const email = req.body.email
-        const pwd = req.body.password
+    signIn:  async  (req: Request, resp: Response) => {
+        errorsValidation(req,resp);
+        resp.send('Bonjour');
+        const {email, password} = req.body;
+        try {
+                // @ts-ignore
+            const user: User = await User.findOne({ email });
+                if (!user) {
+                    resp.status(401).json({errors: [{msg: 'Invalid credentials'}]})
+                }
+                const isMatch = await bcrypt.compare(password, user.password);
 
-        const user = User.findOne({ email })
-        if (!user) {
-            throw new Error('unable to log in')
+                if (!isMatch) {
+                    resp.status(401).json({errors: [{msg: 'User or password invalid'}]})
+                }
+                const payload = {
+                    user: {
+                        id: user.id
+                    }
+                };
+                jwt.sign(
+                  payload,
+                  "secretToken",
+                    {expiresIn: 360000},
+                    (error, token) => {
+                      if (error) throw error;
+                      resp.send(token);
+                    }
+                );
+        }catch (e) {
+            console.log(e.message);
+            resp.status(500).json('Server Error');
         }
-
-        // @ts-ignore
-        const isMatch = await bcrypt.compare(pwd, user.password)
-        if (!isMatch) {
-            throw new Error('Unable to login')
-        }
-
-        return user
     },
 
     signOut(){
         console.log('signing out.')
     }
-}
+};
+
+export default AuthService;
