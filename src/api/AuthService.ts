@@ -14,12 +14,12 @@ export let AuthService = {
                 // @ts-ignore
             const user: User = await User.findOne({ email });
                 if (!user) {
-                    resp.status(400).json({errors: [{msg: 'Invalid credentials'}]})
+                    resp.status(401).json({errors: [{msg: 'Invalid credentials'}]})
                 }
                 const isMatch = await bcrypt.compare(password, user.password);
 
                 if (!isMatch) {
-                    resp.status(400).json({errors: [{msg: 'User or password invalid'}]})
+                    resp.status(401).json({errors: [{msg: 'User or password invalid'}]})
                 }
                 const payload = {
                     user: {
